@@ -3,33 +3,94 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Perfumes Pedido Calc — Página de prueba</title>
+  <title>Fragancias CHB — Calculadora de Pedido</title>
+  <meta name="description" content="Calcula ingreso, costo, utilidad (balance neto) y margen ponderado para tus pedidos de perfumes.">
   <style>
-    body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;max-width:860px;margin:40px auto;padding:0 16px;line-height:1.5}
-    h1{font-size:clamp(24px,4vw,36px);margin-bottom:8px}
-    code,pre{background:#f6f8fa;border:1px solid #e5e7eb;border-radius:8px;padding:12px;display:block;overflow:auto}
-    a{color:#0d6efd;text-decoration:none} a:hover{text-decoration:underline}
-    .card{border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin:16px 0;background:#fff}
+    :root{--bg:#0b1020;--card:#111831;--muted:#8fa1c2;--text:#e8eeff;--accent:#60a5fa;--ok:#22c55e}
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#0b1020,#0b1020 60%,#0d1226);color:var(--text);font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu}
+    .wrap{max-width:980px;margin:0 auto;padding:28px 18px}
+    .hero{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin:12px 0 22px}
+    .badge{display:inline-flex;align-items:center;gap:8px;background:#0d1a34;border:1px solid #1a2b52;color:#b7c4e6;border-radius:999px;padding:6px 10px;font-size:13px}
+    .badge .dot{width:10px;height:10px;border-radius:50%;background:var(--ok)}
+    h1{font-size:clamp(28px,4vw,40px);margin:4px 0 8px}
+    p.lead{color:var(--muted);max-width:70ch;margin:0 0 14px}
+    .row{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+    @media (max-width:900px){.row{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid #1a274a;border-radius:16px;padding:18px}
+    .card h2{margin:0 0 10px;font-size:20px}
+    .btns{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0 2px}
+    .btn{display:inline-block;padding:11px 14px;border-radius:10px;border:1px solid #244079;text-decoration:none;color:#eaf1ff;background:#102349}
+    .btn:hover{border-color:#2b69f7}
+    .btn.primary{background:#1b4bde;border-color:#2b69f7}
+    .btn.ghost{background:#0e1a34}
+    code,pre{background:#0c1430;border:1px solid #1a274a;border-radius:10px}
+    code{padding:2px 6px}
+    pre{padding:12px;overflow:auto}
+    .kbd{padding:2px 6px;border:1px solid #334b82;border-bottom-width:2px;border-radius:6px;background:#0f1c3a}
+    ul{margin:8px 0 12px}
+    .muted{color:var(--muted)}
+    footer{margin:28px 0 6px;color:#7e8fb7;text-align:center;font-size:13px}
   </style>
 </head>
 <body>
-  <h1>✅ GitHub Pages funcionando</h1>
-  <p>Si ves esta página publicada, tu configuración de <strong>GitHub Pages</strong> ya quedó.</p>
-  <div class="card">
-    <h2>¿Qué sigue?</h2>
-    <ol>
-      <li>Edita este archivo <code>index.html</code> con tu contenido real (docs, links de descarga, etc.).</li>
-      <li>Haz <em>commit</em> y <em>push</em> a la rama configurada en <em>Settings → Pages</em>.</li>
-      <li>Espera unos segundos y refresca tu dominio de Pages.</li>
-    </ol>
+  <div class="wrap">
+    <div class="hero">
+      <span class="badge"><span class="dot"></span> GitHub Pages activo</span>
+      <h1>Fragancias CHB · Calculadora de Pedido</h1>
+      <p class="lead">Descarga la herramienta y calcula <strong>ingreso</strong>, <strong>costo</strong>, <strong>utilidad (balance neto)</strong> y <strong>margen ponderado</strong> de cada lote.</p>
+    </div>
+
+    <div class="row">
+      <section class="card">
+        <h2>Descargas</h2>
+        <div class="btns">
+          <!-- AÑADE estos archivos dentro de /downloads en tu repo -->
+          <a class="btn primary" href="downloads/calc_pedido.exe">⬇️ Descargar .EXE (Windows)</a>
+          <a class="btn" href="downloads/pedido_template.csv">📄 Plantilla de pedido.csv</a>
+          <a class="btn ghost" href="downloads/Calculadora_Pedidos_Perfumes.xlsx">📊 Calculadora Excel (opcional)</a>
+        </div>
+        <p class="muted">Si aún no subes los archivos, estos botones darán 404. Sólo colócalos en la carpeta <code>/downloads</code> del repo y listo.</p>
+
+        <h2 style="margin-top:18px">Cómo usar (EXE)</h2>
+        <ol>
+          <li>Coloca <span class="kbd">calc_pedido.exe</span>, tu <span class="kbd">listas_de_precios_propios.xlsx</span> (hoja <code>PERFUMES</code>) y el <span class="kbd">pedido.csv</span> en la misma carpeta.</li>
+          <li>Haz doble clic al EXE o ejecútalo en consola con:
+            <pre>.\calc_pedido.exe --catalogo listas_de_precios_propios.xlsx --pedido pedido.csv --dedup max_venta --export</pre>
+          </li>
+          <li>Se generan archivos <code>salida_YYYYMMDD_HHMMSS.xlsx</code> y CSV con detalle y resumen.</li>
+        </ol>
+
+        <h2>Cómo usar (Python)</h2>
+        <pre>pip install -r requirements.txt
+python calc_pedido.py --catalogo listas_de_precios_propios.xlsx --pedido pedido.csv --dedup first --export</pre>
+
+        <p class="muted">
+          <strong>--dedup</strong> resuelve duplicados del catálogo por nombre normalizado:
+          <code>first</code> (default), <code>max_venta</code>, <code>min_costo</code>, <code>avg</code>.
+        </p>
+      </section>
+
+      <aside class="card">
+        <h2>Estructura de datos</h2>
+        <ul>
+          <li><strong>Catálogo</strong> (XLSX, hoja <code>PERFUMES</code>):<br>
+            <code>producto</code>, <code>precio compra</code>, <code>precio venta</code></li>
+          <li><strong>Pedido</strong> (CSV):<br>
+            <code>producto</code>, <code>cantidad</code>, <code>descuento_%</code> (0..1)</li>
+        </ul>
+        <h2>Notas</h2>
+        <ul>
+          <li>GitHub Pages sirve archivos estáticos (no ejecuta Python).</li>
+          <li>Sube el <code>.exe</code> y la plantilla a <code>/downloads/</code> para que los botones funcionen.</li>
+          <li>Revisa la sección “Actions” del repo para compilar el <code>.exe</code> automáticamente.</li>
+        </ul>
+      </aside>
+    </div>
+
+    <footer>© <span id="y"></span> Fragancias CHB — Pedido Calc</footer>
   </div>
-  <div class="card">
-    <h2>Notas rápidas</h2>
-    <ul>
-      <li>GitHub Pages sirve <strong>archivos estáticos</strong> (HTML, CSS, JS, imágenes). No ejecuta Python.</li>
-      <li>URL típico de proyecto: <code>https://TU-USUARIO.github.io/TU-REPO/</code></li>
-      <li>Si quieres una web “raíz”, crea un repo llamado <code>TU-USUARIO.github.io</code> y publica ahí.</li>
-    </ul>
-  </div>
+  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
 </body>
 </html>
+
